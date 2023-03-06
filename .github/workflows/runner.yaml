@@ -12,6 +12,10 @@ jobs:
           repository: systemed/tilemaker
           ref: v2.2.0
 
+      - name: Install dependencies
+        run: |
+          sudo apt install build-essential libboost-dev libboost-filesystem-dev libboost-iostreams-dev libboost-program-options-dev libboost-system-dev liblua5.1-0-dev libprotobuf-dev libshp-dev libsqlite3-dev protobuf-compiler rapidjson-dev
+
       - name: Build Tilemaker
         run: |
           make
