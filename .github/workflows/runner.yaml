@@ -6,16 +6,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Download data file
-        run: aria2c -x 16 -s 16 -k 1M https://download.geofabrik.de/north-america/us/california-latest.osm.pbf
-
-      - uses: systemed/tilemaker@v2.0.0
+      - name: Check out Tilemaker
+        uses: actions/checkout@v3
         with:
-          input: california-latest.osm.pbf
-          output: california-latest.mbtiles
+          repository: systemed/tilemaker
+          ref: v2.2.0
 
-      - name: Upload the .mbtiles file
-        uses: actions/upload-artifact@v3
-        with:
-          name: output
-          path: california-latest.mbtiles
+      - name: Build Tilemaker
+        run: |
+          make
+          sudo make install
+
+      # - name: Download data file
+      #   run: aria2c -x 16 -s 16 -k 1M https://download.geofabrik.de/north-america/us/california-latest.osm.pbf
+
+      # - uses: systemed/tilemaker@v2.0.0
+      #   with:
+      #     input: california-latest.osm.pbf
+      #     output: california-latest.mbtiles
+
+      # - name: Upload the .mbtiles file
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: output
+      #     path: california-latest.mbtiles
