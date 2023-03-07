@@ -10,6 +10,7 @@ jobs:
         run: |
           wget https://github.com/systemed/tilemaker/releases/download/v2.2.0/tilemaker-ubuntu-18.04.zip
           unzip -j tilemaker-ubuntu-18.04.zip
+          chmod +x ./tilemaker
 
       - name: Download coastline
         run: |
