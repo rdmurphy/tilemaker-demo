@@ -17,6 +17,12 @@ jobs:
           wget https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip
           unzip -j -d coastline water-polygons-split-4326.zip
 
+      - name: Download land cover
+        run: |
+          wget https://naciscdn.org/naturalearth/10m/cultural/ne_10m_urban_areas.zip
+          mkdir -p landcover/ne_10m_urban_areas
+          unzip -j -d landcover/ne_10m_urban_areas ne_10m_urban_areas.zip
+
       - name: Download data file
         run: aria2c -x 16 -s 16 -k 1M https://download.geofabrik.de/north-america/us/california-latest.osm.pbf
 
