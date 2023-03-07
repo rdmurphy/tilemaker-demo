@@ -21,7 +21,7 @@ jobs:
 
       - name: Run Tilemaker
         run: |
-          tilemaker \
+          ./tilemaker \
             --input california-latest.osm.pbf \
             --output california-latest.mbtiles \
             --config config-openmaptiles.json \
