@@ -6,27 +6,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out Tilemaker
-        uses: actions/checkout@v3
-        with:
-          repository: systemed/tilemaker
-          ref: v2.2.0
-
-      - name: Install dependencies
+      - name: Download Tilemaker
         run: |
-          sudo apt install build-essential libboost-dev libboost-filesystem-dev libboost-iostreams-dev libboost-program-options-dev libboost-system-dev liblua5.1-0-dev libprotobuf-dev libshp-dev libsqlite3-dev protobuf-compiler rapidjson-dev
+          wget https://github.com/systemed/tilemaker/releases/download/v2.2.0/tilemaker-ubuntu-18.04.zip
+          unzip -j tilemaker-ubuntu-18.04.zip
 
-      - name: Build Tilemaker
+      - name: Download coastline
         run: |
-          make
-          sudo make install
+          wget https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip
+          unzip -j -d coastline water-polygons-split-4326.zip
 
       - name: Download data file
         run: aria2c -x 16 -s 16 -k 1M https://download.geofabrik.de/north-america/us/california-latest.osm.pbf
 
       - name: Run Tilemaker
         run: |
-          tilemaker --input california-latest.osm.pbf --output california-latest.mbtiles
+          tilemaker \
+            --input california-latest.osm.pbf \
+            --output california-latest.mbtiles \
+            --config config-openmaptiles.json \
+            --process process-openmaptiles.lua
 
       - name: Upload the .mbtiles file
         uses: actions/upload-artifact@v3
